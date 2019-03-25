@@ -93,7 +93,7 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 				callbackContext.success(printerList);
 				stopDiscovery();
 			}
-		}, 1000);
+		}, 5000);
 	}
 
 	private DiscoveryListener mDiscoveryListener = new DiscoveryListener() {
