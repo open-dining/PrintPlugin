@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="net.opendining.cordova"
+    version="0.1.10">
+
+    <name>Printer</name>
+    <description>
+        Prints to receipt printers.
+    </description>
+    <license>Private</license>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <js-module src="www/Printer.js" name="Printer">
+       <clobbers target="cordova.printer" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Printer">
+                <param name="android-package" value="net.opendining.cordova.Print"/>
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+        </config-file>
+
+        <lib-file src="src/android/libs/ePOS2.jar"/>
+        <lib-file src="src/android/libs/ePOSEasySelect.jar"/>
+        <lib-file src="src/android/libs/gson-2.8.5.jar"/>
+        <source-file src="src/android/libs/armeabi/libepos2.so" target-dir="libs/armeabi/" />
+        <source-file src="src/android/libs/armeabi/libeposeasyselect.so" target-dir="libs/armeabi/" />
+        <source-file src="src/android/Print.java" target-dir="src/net/opendining/cordova" />
+        <source-file src="src/android/ItemOption.java" target-dir="src/net/opendining/cordova" />
+        <source-file src="src/android/Order.java" target-dir="src/net/opendining/cordova" />
+        <source-file src="src/android/OrderCoupon.java" target-dir="src/net/opendining/cordova" />
+        <source-file src="src/android/OrderField.java" target-dir="src/net/opendining/cordova" />
+        <source-file src="src/android/OrderItem.java" target-dir="src/net/opendining/cordova" />
+        <source-file src="src/android/PrintConfig.java" target-dir="src/net/opendining/cordova" />
+        <source-file src="src/android/Tax.java" target-dir="src/net/opendining/cordova" />
+    </platform>
+</plugin>
