@@ -14,11 +14,6 @@ import java.util.TimerTask;
 import java.io.*;
 
 import android.util.Log;
-
-import java.util.ArrayList;
-
-import net.opendining.tabletapp.R;
-
 import android.content.Context;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -527,7 +522,7 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			return "ERR_ILLEGAL: The function was used in an illegal way.";
 
 		if (errStatus == Epos2Exception.ERR_PROCESSING)
-			return "ERR_PROCESSING: Check if the process overlaps with another process in time.");
+			return "ERR_PROCESSING: Check if the process overlaps with another process in time.";
 
 		if (errStatus == Epos2Exception.ERR_NOT_FOUND)
 			return "ERR_NOT_FOUND: Check if the connection type and/or IP address are correct.";
