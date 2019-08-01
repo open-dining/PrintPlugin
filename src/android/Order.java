@@ -71,8 +71,8 @@ public class Order {
 		cal1.setTime(orderDate);
 
 		boolean sameDay = cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
-						  cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-						  cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+							cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+							cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 
 		String prefix = sameDay ? "Today" : order_date;
 		return prefix + " at " + eta;

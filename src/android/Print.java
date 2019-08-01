@@ -255,7 +255,8 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			if (order.all_fields != null && !order.all_fields.isEmpty())
 				builder.append(order.all_fields);
 
-			builder.append("Submitted: " + order.submit_time_display + "\n");
+			if (order.submit_time_display != null && !order.submit_time_display.isEmpty())
+				builder.append("Submitted: " + order.submit_time_display + "\n");
 
 			builder.append("Due: " + order.getDueDisplayString() + "\n");
 

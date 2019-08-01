@@ -38,6 +38,10 @@
         <lib-file src="src/android/libs/gson-2.8.5.jar"/>
         <source-file src="src/android/libs/armeabi/libepos2.so" target-dir="libs/armeabi/" />
         <source-file src="src/android/libs/armeabi/libeposeasyselect.so" target-dir="libs/armeabi/" />
+        <source-file src="src/android/libs/arm64-v8a/libepos2.so" target-dir="libs/arm64-v8a/" />
+        <source-file src="src/android/libs/arm64-v8a/libeposeasyselect.so" target-dir="libs/arm64-v8a/" />
+        <source-file src="src/android/libs/x86_64/libepos2.so" target-dir="libs/x86_64/" />
+        <source-file src="src/android/libs/x86_64/libeposeasyselect.so" target-dir="libs/x86_64/" />
         <source-file src="src/android/Print.java" target-dir="src/net/opendining/cordova" />
         <source-file src="src/android/ItemOption.java" target-dir="src/net/opendining/cordova" />
         <source-file src="src/android/Order.java" target-dir="src/net/opendining/cordova" />
