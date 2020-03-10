@@ -297,6 +297,14 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 					if (item.notes != null && !item.notes.isEmpty())
 						builder.append("Notes: " + item.notes + "\n");
 
+					if (item.rewards != null)
+						for (Reward reward : item.rewards)
+							builder.append("Reward: " + reward.name + ": -" + formatMoney(reward.amount) + "\n");
+
+					if (item.comps != null)
+						for (Reward comp : item.comps)
+							builder.append("Comp: " + comp.name + ": -" + formatMoney(comp.amount) + "\n");
+
 					mPrinter.addText(builder.toString());
 					builder.delete(0, builder.length());
 
@@ -309,6 +317,14 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			mPrinter.addFeedLine(1);
 
 			builder.append("Subtotal: " + formatMoney(order.subtotal) + "\n");
+
+			if (order.rewards != null)
+				for (Reward reward : order.rewards)
+					builder.append("Reward: " + reward.name + ": -" + formatMoney(reward.amount) + "\n");
+
+			if (order.comps != null)
+				for (Reward comp : order.comps)
+					builder.append("Comp: " + comp.name + ": -" + formatMoney(comp.amount) + "\n");
 
 			if (order.active_coupons != null)
 				for (OrderCoupon coupon : order.active_coupons)

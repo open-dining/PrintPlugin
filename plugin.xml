@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="net.opendining.cordova"
-    version="0.1.11">
+    version="0.1.12">
 
     <name>Printer</name>
     <description>
@@ -50,5 +50,6 @@
         <source-file src="src/android/OrderItem.java" target-dir="src/net/opendining/cordova" />
         <source-file src="src/android/PrintConfig.java" target-dir="src/net/opendining/cordova" />
         <source-file src="src/android/Tax.java" target-dir="src/net/opendining/cordova" />
+        <source-file src="src/android/Reward.java" target-dir="src/net/opendining/cordova" />
     </platform>
 </plugin>

@@ -53,6 +53,8 @@ public class Order {
 	public List<Tax> active_taxes;
 	public List<OrderCoupon> active_coupons;
 	public List<OrderItem> items;
+	public List<Reward> rewards;
+	public List<Reward> comps;
 
 	public boolean isAdvance() {
 		return order_date != null && !order_date.isEmpty() && eta != null && !eta.isEmpty();

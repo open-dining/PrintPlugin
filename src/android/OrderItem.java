@@ -12,4 +12,6 @@ public class OrderItem {
 	public BigDecimal total_price;
 
 	public List<ItemOption> options;
+	public List<Reward> rewards;
+	public List<Reward> comps;
 }
