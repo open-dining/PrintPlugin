@@ -239,12 +239,7 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			builder.append("Customer: " + order.customer_name + "\n");
 			builder.append("Phone: " + order.customer_phone_display + "\n");
 			builder.append("Email: " + order.email + "\n");
-
-			if (!"0".equals(order.paid) && !"No".equals(order.paid)) {
-				builder.append("Prepaid: Yes\n");
-			} else {
-				builder.append("Prepaid: No\n");
-			}
+			builder.append("Payment: " + order.payment_type + "\n");
 
 			if (order.customer_address != null && !order.customer_address.isEmpty())
 				builder.append("Address: " + order.customer_address + "\n");
