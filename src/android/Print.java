@@ -368,6 +368,7 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			return false;
 		} catch (Exception e) {
 			logException(e, "Could not create receipt text.");
+			return false;
 		}
 
 		return true;
