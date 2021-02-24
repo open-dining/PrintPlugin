@@ -17,6 +17,7 @@ import android.util.Log;
 import android.content.Context;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Looper;
 
 import com.epson.epos2.Epos2Exception;
 import com.epson.epos2.printer.Printer;
@@ -82,6 +83,8 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		try {
 			Discovery.start(mContext, filterOption, mDiscoveryListener);
 		} catch (Epos2Exception e) {
+			logException(e, "Discovery.start.");
+		} catch (Exception e) {
 			logException(e, "Discovery.start.");
 		}
 
@@ -363,6 +366,8 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		} catch (Epos2Exception e) {
 			logException(e, "Could not create receipt text.");
 			return false;
+		} catch (Exception e) {
+			logException(e, "Could not create receipt text.");
 		}
 
 		return true;
@@ -393,6 +398,9 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		} catch (Epos2Exception e) {
 			logException(e, "Connect.");
 			return false;
+		} catch (Exception e) {
+			logException(e, "Connect.");
+			return false;
 		}
 
 		try {
@@ -400,12 +408,16 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			isBeginTransaction = true;
 		} catch (Epos2Exception e) {
 			logException(e, "Begin Transaction.");
+		} catch (Exception e) {
+			logException(e, "Begin Transaction.");
 		}
 
 		if (isBeginTransaction == false) {
 			try {
 				mPrinter.disconnect();
 			} catch (Epos2Exception e) {
+				logException(e, "Disconnect.");
+			} catch (Exception e) {
 				logException(e, "Disconnect.");
 			}
 			return false;
@@ -420,6 +432,9 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			int series = getPrinterSeries(printConfig.model);
 			mPrinter = new Printer(series, Printer.MODEL_ANK, mContext);
 		} catch (Epos2Exception e) {
+			logException(e, "Initialize Printer.");
+			return false;
+		} catch (Exception e) {
 			logException(e, "Initialize Printer.");
 			return false;
 		}
@@ -453,12 +468,16 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			Log.d(TAG, "endTransaction");
 		} catch (final Epos2Exception e) {
 			logException(e, "End Transaction.");
+		} catch (Exception e) {
+			logException(e, "End Transaction.");
 		}
 
 		try {
 			mPrinter.disconnect();
 			Log.d(TAG, "disconnect");
 		} catch (final Epos2Exception e) {
+			logException(e, "Disconnect.");
+		} catch (Exception e) {
 			logException(e, "Disconnect.");
 		}
 
@@ -486,6 +505,8 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			try {
 				mPrinter.disconnect();
 			} catch (Epos2Exception e) {
+				logException(e, "Disconnect.");
+			} catch (Exception e) {
 				logException(e, "Disconnect.");
 			}
 			return false;
@@ -580,6 +601,8 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 	}
 
 	private static void show(String msg, Context context) {
+		Looper.prepare();
+
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 		alertDialog.setMessage(msg);
 		alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -589,6 +612,8 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		});
 		alertDialog.create();
 		alertDialog.show();
+
+		Looper.loop();
 	}
 
 	private String getStackTrace(Exception e) {
@@ -609,6 +634,16 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 
 		Log.d(TAG_ERROR, errorMessage);
 		Log.d(TAG, getStackTrace(exception));
+	}
+
+	private void logException(Exception exception, String message) {
+		String errorMessage = message + " " + getStackTrace(exception);
+
+		try {
+			errors.put("internal", errorMessage);
+		} catch (JSONException e) {}
+
+		Log.d(TAG_ERROR, errorMessage);
 	}
 
 	private String formatMoney(BigDecimal bd) {
