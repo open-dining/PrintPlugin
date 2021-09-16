@@ -602,7 +602,9 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 	}
 
 	private static void show(String msg, Context context) {
-		Looper.prepare();
+		if (Looper.myLooper() == null) {
+			Looper.prepare();
+		}
 
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 		alertDialog.setMessage(msg);
@@ -613,8 +615,6 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		});
 		alertDialog.create();
 		alertDialog.show();
-
-		Looper.loop();
 	}
 
 	private String getStackTrace(Exception e) {
