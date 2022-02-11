@@ -691,6 +691,18 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			case "TM-T90II":
 				series = Printer.TM_T90;
 				break;
+			case "TM-M10":
+				series = Printer.TM_M10;
+				break;
+			case "TM-M30":
+				series = Printer.TM_M30;
+				break;
+			case "TM-M30II":
+				series = Printer.TM_M30II;
+				break;
+			case "TM-M50":
+				series = Printer.TM_M50;
+				break;
 			default:
 				break;
 		}
