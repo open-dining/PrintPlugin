@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="net.opendining.cordova"
-    version="0.1.17">
+    version="0.1.18">
 
     <name>Printer</name>
     <description>
@@ -31,6 +31,7 @@
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
         </config-file>
 
         <lib-file src="src/android/libs/ePOS2.jar"/>
