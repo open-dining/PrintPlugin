@@ -722,7 +722,7 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		return series;
 	}
 
-	private void sendToZebraConnect(JSONArray args, final CallbackContext callbackContext) {
+	private void sendToZebraConnect(JSONArray args, final CallbackContext callbackContext) throws JSONException {
 		final String zplString = args.getJSONObject(0).toString();
 		byte[] passthroughBytes = null;
 
