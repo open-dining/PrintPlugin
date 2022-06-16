@@ -32,6 +32,7 @@ import com.epson.epos2.discovery.FilterOption;
 public class Print extends CordovaPlugin implements ReceiveListener {
 	public static final String ACTION_PRINT_ORDER = "printOrder";
 	public static final String ACTION_FIND_PRINTERS = "findPrinters";
+	public static final String ACTION_SEND_TO_ZEBRA_CONNECT = "sendToZebraConnect";
 
 	private static final String TAG = "TestPrinter";
 	private static final String TAG_ERROR = "TestPrinter ERROR";
@@ -60,6 +61,11 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 
 			if (action.equals(ACTION_FIND_PRINTERS)) {
 				findPrinters(args, callbackContext);
+				return true;
+			}
+
+			if (action.equals(ACTION_SEND_TO_ZEBRA_CONNECT)) {
+				sendToZebraConnect(args, callbackContext);
 				return true;
 			}
 
@@ -708,6 +714,36 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		}
 
 		return series;
+	}
+
+	private void sendToZebraConnect(JSONArray args, final CallbackContext callbackContext) {
+		final String zplString = args.getJSONObject(0).toString();
+
+		try {
+			passthroughBytes = passthroughData.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// Handle exception
+		}
+
+		Intent intent = new Intent();
+		intent.setComponent(new ComponentName("com.zebra.printconnect",
+				"com.zebra.printconnect.print.PassthroughService"));
+		intent.putExtra("com.zebra.printconnect.PrintService.PASSTHROUGH_DATA", passthroughBytes);
+		intent.putExtra("com.zebra.printconnect.PrintService.RESULT_RECEIVER",
+				buildIPCSafeReceiver(new ResultReceiver(null) {
+					@Override
+					protected void onReceiveResult(int resultCode, Bundle resultData) {
+						if (resultCode == 0) { // Result code 0 indicates success
+							callbackContext.success();
+						} else {
+							// Handle unsuccessful print
+							// Error message (null on successful print)
+							String errorMessage = resultData.getString("com.zebra.printconnect.PrintService.ERROR_MESSAGE");
+						}
+					}
+				}));
+
+		startService(intent);
 	}
 
 }

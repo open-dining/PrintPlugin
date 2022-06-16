@@ -20,6 +20,15 @@ var printer = {
 			'findPrinters',
 			[]
 		)
+	},
+	sendToZebraConnect: function(zplBody, successCallback, errorCallback) {
+		cordova.exec(
+			successCallback,
+			errorCallback,
+			'Printer',
+			'sendToZebraConnect',
+			[zplBody]
+		)
 	}
 };
 
