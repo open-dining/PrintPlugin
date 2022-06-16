@@ -19,6 +19,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Looper;
 
+import android.content.Intent;
+import android.content.ComponentName;
+import android.os.ResultReceiver;
+import android.os.Bundle;
+
 import com.epson.epos2.Epos2Exception;
 import com.epson.epos2.printer.Printer;
 import com.epson.epos2.printer.PrinterStatusInfo;
@@ -718,9 +723,10 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 
 	private void sendToZebraConnect(JSONArray args, final CallbackContext callbackContext) {
 		final String zplString = args.getJSONObject(0).toString();
+		byte[] passthroughBytes = null;
 
 		try {
-			passthroughBytes = passthroughData.getBytes("UTF-8");
+			passthroughBytes = zplString.getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			// Handle exception
 		}
