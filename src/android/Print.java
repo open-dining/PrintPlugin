@@ -746,6 +746,7 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 							// Handle unsuccessful print
 							// Error message (null on successful print)
 							String errorMessage = resultData.getString("com.zebra.printconnect.PrintService.ERROR_MESSAGE");
+							callbackContext.error(errorMessage);
 						}
 					}
 				}));
