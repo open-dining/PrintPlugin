@@ -21,12 +21,12 @@ var printer = {
 			[]
 		)
 	},
-	sendToZebraConnect: function(zplBody, successCallback, errorCallback) {
+	sendToPrintConnect: function(zplBody, successCallback, errorCallback) {
 		cordova.exec(
 			successCallback,
 			errorCallback,
 			'Printer',
-			'sendToZebraConnect',
+			'sendToPrintConnect',
 			[zplBody]
 		)
 	}

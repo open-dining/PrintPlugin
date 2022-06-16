@@ -38,7 +38,7 @@ import com.epson.epos2.discovery.FilterOption;
 public class Print extends CordovaPlugin implements ReceiveListener {
 	public static final String ACTION_PRINT_ORDER = "printOrder";
 	public static final String ACTION_FIND_PRINTERS = "findPrinters";
-	public static final String ACTION_SEND_TO_ZEBRA_CONNECT = "sendToZebraConnect";
+	public static final String ACTION_SEND_TO_PRINT_CONNECT = "sendToPrintConnect";
 
 	private static final String TAG = "TestPrinter";
 	private static final String TAG_ERROR = "TestPrinter ERROR";
@@ -70,8 +70,8 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 				return true;
 			}
 
-			if (action.equals(ACTION_SEND_TO_ZEBRA_CONNECT)) {
-				sendToZebraConnect(args, callbackContext);
+			if (action.equals(ACTION_SEND_TO_PRINT_CONNECT)) {
+				sendToPrintConnect(args, callbackContext);
 				return true;
 			}
 
@@ -722,8 +722,8 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		return series;
 	}
 
-	private void sendToZebraConnect(JSONArray args, final CallbackContext callbackContext) throws JSONException {
-		final String zplString = args.getJSONObject(0).toString();
+	private void sendToPrintConnect(JSONArray args, final CallbackContext callbackContext) throws JSONException {
+		final String zplString = args.getString(0);
 		byte[] passthroughBytes = null;
 
 		try {
