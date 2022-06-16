@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.ComponentName;
 import android.os.ResultReceiver;
 import android.os.Bundle;
+import android.os.Parcel;
 
 import com.epson.epos2.Epos2Exception;
 import com.epson.epos2.printer.Printer;
@@ -749,7 +750,17 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 					}
 				}));
 
-		startService(intent);
+		mContext.startService(intent);
+	}
+
+	// This method makes your ResultReceiver safe for inter-process communication
+	private ResultReceiver buildIPCSafeReceiver(ResultReceiver actualReceiver) {
+		Parcel parcel = Parcel.obtain();
+		actualReceiver.writeToParcel(parcel, 0);
+		parcel.setDataPosition(0);
+		ResultReceiver receiverForSending = ResultReceiver.CREATOR.createFromParcel(parcel);
+		parcel.recycle();
+		return receiverForSending;
 	}
 
 }
