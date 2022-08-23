@@ -86,29 +86,74 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 	}
 
 	private void findPrinters(JSONArray args, final CallbackContext callbackContext) throws JSONException {
-		stopDiscovery();
-		Log.d(TAG, "--findPrinters--");
-		FilterOption filterOption = new FilterOption();
-		filterOption.setDeviceType(Discovery.TYPE_PRINTER);
+//		stopDiscovery();
+//		Log.d(TAG, "--findPrinters--");
+//		FilterOption filterOption = new FilterOption();
+//		filterOption.setDeviceType(Discovery.TYPE_PRINTER);
 
-		// Starts searching
-		try {
-			Discovery.start(mContext, filterOption, mDiscoveryListener);
-		} catch (Epos2Exception e) {
-			logException(e, "Discovery.start.");
-		} catch (Exception e) {
-			logException(e, "Discovery.start.");
-		}
+		//Establishing connection
+		//Create connection object using TCP/IP
+		final String SOCKET_IP = "192.168.0.3";
+		ConnectionBase mConn;
+		final int SOCKET_PORT = 9100;
+		mConn= Connection_TCP.createClient(SOCKET_IP,SOCKET_PORT);
 
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Log.d(TAG, "--success--");
-				callbackContext.success(printerList);
-				stopDiscovery();
-			}
-		}, 5000);
+		//Creating a print job for printing
+		DocumentFP mDocumentFp = new DocumentFP();
+		ParametersFP mParamFp = new ParametersFP();
+
+		mDocumentFp.writeText("For Delivery",1,200, mParamFp);
+
+		mDocumentFp.writeText("Customer Code: 00146",50,1, mParamFp);
+
+		mDocumentFp.writeText("Address: Manila",75,1, mParamFp);
+		mDocumentFp.writeText("Tin No.: 27987641",100,1, mParamFp);
+
+		mDocumentFp.writeText("Area Code: PN1-0004",125,1, mParamFp);
+
+		mDocumentFp.writeText("Business Style: JACOBJANAK",150,1, mParamFp);
+
+
+		//Printing
+		//Get data from document object and store in variable
+		mDocumentFp.printDocument();
+		byte[] printData = mDocumentFp.getDocumentData();
+
+		//open connection
+		mConn.open();
+
+		//write data to printer and close connection
+		mConn.write(printData);
+
+		//waiting to execute the command
+		Thread.sleep(500);
+
+
+		//Terminating connection
+		//Close connection
+		conn.close();
+
+		//Clean connection
+		conn = null;
+
+//		// Starts searching
+//		try {
+//			Discovery.start(mContext, filterOption, mDiscoveryListener);
+//		} catch (Epos2Exception e) {
+//			logException(e, "Discovery.start.");
+//		} catch (Exception e) {
+//			logException(e, "Discovery.start.");
+//		}
+//
+//		Timer timer = new Timer();
+//		timer.schedule(new TimerTask() {
+//			@Override
+//			public void run() {
+//				Log.d(TAG, "--success--");
+//				callbackContext.success(printerList);
+//				stopDiscovery();
+//			}
+//		}, 5000);
 	}
 
 	private DiscoveryListener mDiscoveryListener = new DiscoveryListener() {
