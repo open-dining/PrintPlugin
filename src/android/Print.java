@@ -35,6 +35,9 @@ import com.epson.epos2.discovery.DeviceInfo;
 import com.epson.epos2.discovery.Discovery;
 import com.epson.epos2.discovery.FilterOption;
 
+import honeywell.connection.ConnectionBase;
+import com.honeywell.connection.ConnectionBase;
+
 public class Print extends CordovaPlugin implements ReceiveListener {
 	public static final String ACTION_PRINT_ORDER = "printOrder";
 	public static final String ACTION_FIND_PRINTERS = "findPrinters";
