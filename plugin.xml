@@ -41,8 +41,7 @@
         <lib-file src="src/android/libs/ePOS2.jar"/>
         <lib-file src="src/android/libs/ePOSEasySelect.jar"/>
         <lib-file src="src/android/libs/gson-2.8.5.jar"/>
-<!--        <lib-file src="src/android/libs/HoneywellPrinterSDK-3.0.130.aar"/>-->
-        <resource-file src="HoneywellPrinterSDK-3.0.130.aar" target="src/android/libs/HoneywellPrinterSDK.aar" />
+        <resource-file src="HoneywellPrinterSDK.aar" target="src/android/libs/HoneywellPrinterSDK.aar" />
         <framework src="HoneywellPrinterSDK.gradle" custom="true" type="gradleReference" />
         <source-file src="src/android/libs/armeabi/libepos2.so" target-dir="libs/armeabi/" />
         <source-file src="src/android/libs/armeabi/libeposeasyselect.so" target-dir="libs/armeabi/" />
