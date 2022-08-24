@@ -1,3 +1,0 @@
-dependencies {
-    compile (name:'HoneywellPrinterSDK', ext:'aar')
-}

@@ -94,14 +94,16 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 //		FilterOption filterOption = new FilterOption();
 //		filterOption.setDeviceType(Discovery.TYPE_PRINTER);
 
-		//Establishing connection
-		//Create connection object using TCP/IP
-		final String SOCKET_IP = "192.168.0.3";
+//		Establishing connection
+//Create connection object using TCP/IP
 		ConnectionBase mConn;
-		final int SOCKET_PORT = 9100;
-		mConn= Connection_TCP.createClient(SOCKET_IP,SOCKET_PORT);
+		try {
+			mConn = Connection_TCP.createClient("192.168.68.59", 9100);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 
-		//Creating a print job for printing
+//		Creating a print job for printing
 		DocumentFP mDocumentFp = new DocumentFP();
 		ParametersFP mParamFp = new ParametersFP();
 
@@ -114,30 +116,31 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 
 		mDocumentFp.writeText("Area Code: PN1-0004",125,1, mParamFp);
 
-		mDocumentFp.writeText("Business Style: JACOBJANAK",150,1, mParamFp);
+		mDocumentFp.writeText("Business Style: SUPERMARKET A",150,1, mParamFp);
 
 
-		//Printing
-		//Get data from document object and store in variable
+//		Printing
+//Get data from document object and store in variable
 		mDocumentFp.printDocument();
 		byte[] printData = mDocumentFp.getDocumentData();
 
-		//open connection
+//open connection
 		mConn.open();
 
-		//write data to printer and close connection
+//write data to printer and close connection
 		mConn.write(printData);
 
-		//waiting to execute the command
+//waiting to execute the command
 		Thread.sleep(500);
 
 
-		//Terminating connection
-		//Close connection
+//		Terminating connection
+//Close connection
 		conn.close();
 
-		//Clean connection
+//Clean connection
 		conn = null;
+
 
 //		// Starts searching
 //		try {
