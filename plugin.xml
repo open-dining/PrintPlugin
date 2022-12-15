@@ -38,9 +38,17 @@
             </queries>
         </config-file>
 
+        <!--
+            Trying to resolve GSON duplicate error by importing GSON via Framework
+            e.g. https://github.com/dpa99c/cordova-plugin-firebasex/blob/master/plugin.xml
+            See https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#adding-dependency-libraries
+        -->
+        <preference name="ANDROID_GSON_VERSION" default="2.9.0" />
+        <framework src="com.google.code.gson:gson:$ANDROID_GSON_VERSION" />
+
         <lib-file src="src/android/libs/ePOS2.jar"/>
         <lib-file src="src/android/libs/ePOSEasySelect.jar"/>
-        <lib-file src="src/android/libs/gson-2.9.0.jar"/>
+        <!--<lib-file src="src/android/libs/gson-2.9.0.jar"/>-->
         <source-file src="src/android/libs/armeabi/libepos2.so" target-dir="libs/armeabi/" />
         <source-file src="src/android/libs/armeabi/libeposeasyselect.so" target-dir="libs/armeabi/" />
         <source-file src="src/android/libs/arm64-v8a/libepos2.so" target-dir="libs/arm64-v8a/" />
