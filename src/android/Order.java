@@ -17,7 +17,6 @@ public class Order {
 	public String type;
 	public String display_type;
 	public String status;
-	public String handoff_provider;
 
 	public String customer_address;
 	public String address;
@@ -40,6 +39,8 @@ public class Order {
 	public String submit_time_display;
 	public int time;
 	public String courier_due;
+	public int delivery_id;
+	public String delivery_type;
 
 	public BigDecimal subtotal;
 	public BigDecimal delivery_fee;
