@@ -17,6 +17,7 @@ public class Order {
 	public String type;
 	public String display_type;
 	public String status;
+	public String handoff_provider;
 
 	public String customer_address;
 	public String address;
