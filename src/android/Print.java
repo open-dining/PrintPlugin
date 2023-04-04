@@ -276,7 +276,6 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 
 					case "skip": formatted_provider = "Skip the Dishes"
 					break;
-
 				}
 
 				builder.append("Marketplace Provider: " + order.handoff_provider + "\n");
