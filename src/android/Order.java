@@ -40,7 +40,7 @@ public class Order {
 	public String submit_time_display;
 	public int time;
 	public String courier_due;
-	public int delivery_id;
+	public String delivery_id;
 	public String delivery_type;
 
 	public BigDecimal subtotal;
