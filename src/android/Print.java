@@ -274,7 +274,7 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 					case "grubhub": formatted_provider = "Grubhub";
 					break;
 
-					case "skip": formatted_provider = "Skip the Dishes"
+					case "skip": formatted_provider = "Skip the Dishes";
 					break;
 				}
 
