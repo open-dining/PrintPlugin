@@ -18,6 +18,7 @@ public class Order {
 	public String display_type;
 	public String status;
 	public String handoff_provider;
+	public String marketplace_proper_name;
 
 	public String customer_address;
 	public String address;

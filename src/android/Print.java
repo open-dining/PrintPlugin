@@ -259,30 +259,11 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			if (order.customer_address != null && !order.customer_address.isEmpty())
 				builder.append("Address: " + order.customer_address + "\n");
 
-			if (order.handoff_provider != null && !order.handoff_provider.isEmpty()) {
-				String formatted_provider = "";
-
-				switch (order.handoff_provider) {
-					case "ubereats": formatted_provider = "Uber Eats";
-					break;
-
-					case "postmastes": formatted_provider = "Postmates";
-
-					case "doordash": formatted_provider = "DoorDash";
-					break;
-
-					case "grubhub": formatted_provider = "Grubhub";
-					break;
-
-					case "skip": formatted_provider = "Skip the Dishes";
-					break;
-				}
-
-				builder.append("Marketplace Provider: " + formatted_provider + "\n");
-			}
+			if (order.marketplace_proper_name != null && !order.marketplace_proper_name.isEmpty())
+				builder.append("Marketplace Provider: " + order.marketplace_proper_name + "\n");
 
 			if (order.delivery_id != null && !order.delivery_id.isEmpty())
-				builder.append("Marketplace Delivery ID: " + order.delivery_id + "\n");
+				builder.append("Delivery Provider ID: " + order.delivery_id + "\n");
 
 			if (order.special_instructions != null && !order.special_instructions.isEmpty())
 				builder.append("Delivery Instructions: " + order.special_instructions + "\n");
