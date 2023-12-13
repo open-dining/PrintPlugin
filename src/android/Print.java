@@ -21,6 +21,8 @@ import android.os.Looper;
 
 import android.content.Intent;
 import android.content.ComponentName;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.ResultReceiver;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -722,14 +724,30 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		return series;
 	}
 
+	// As of version code 95 (version name 1.2.95), the PrintConnect app must be triggered in the foreground
+	private static final long NEW_PRINT_CONNECT_VERSION = 95;
+
 	private void sendToPrintConnect(JSONArray args, final CallbackContext callbackContext) throws JSONException {
 		final String zplString = args.getString(0);
 		byte[] passthroughBytes = null;
+		boolean requiresForeground = false;
+		long versionCode = 0;
 
 		try {
 			passthroughBytes = zplString.getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			// Handle exception
+		}
+
+		try {
+			PackageManager packageManager = this.mContext.getPackageManager();
+			PackageInfo info = packageManager.getPackageInfo("com.zebra.printconnect", 0);
+			long versionCode = info.getLongVersionCode();
+			if (versionCode >= NEW_PRINT_CONNECT_VERSION) {
+				// requiresForeground = true;
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			callbackContext.error(e.getMessage());
 		}
 
 		Intent intent = new Intent();
@@ -751,7 +769,11 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 					}
 				}));
 
-		mContext.startService(intent);
+		if (requiresForeground) {
+			mContext.startForegroundService(intent);
+		} else {
+			mContext.startService(intent);
+		}
 	}
 
 	// This method makes your ResultReceiver safe for inter-process communication
