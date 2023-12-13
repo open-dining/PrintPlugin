@@ -731,7 +731,6 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		final String zplString = args.getString(0);
 		byte[] passthroughBytes = null;
 		boolean requiresForeground = false;
-		long versionCode = 0;
 
 		try {
 			passthroughBytes = zplString.getBytes("UTF-8");
