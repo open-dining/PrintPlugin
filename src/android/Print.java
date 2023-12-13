@@ -743,7 +743,7 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			PackageInfo info = packageManager.getPackageInfo("com.zebra.printconnect", 0);
 			long versionCode = info.getLongVersionCode();
 			if (versionCode >= NEW_PRINT_CONNECT_VERSION) {
-				// requiresForeground = true;
+				requiresForeground = true;
 			}
 		} catch (PackageManager.NameNotFoundException e) {
 			callbackContext.error(e.getMessage());
