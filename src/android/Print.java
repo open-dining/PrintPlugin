@@ -727,6 +727,18 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 	// As of version code 95 (version name 1.2.95), the PrintConnect app must be triggered in the foreground
 	private static final long NEW_PRINT_CONNECT_VERSION = 95;
 
+	// Error code messages are from Zebra TestConnect source
+	private static final String[] ZEBRA_ERROR_CODE_MAP = {
+		"Success",                  // 0
+		"No printer selected",      // 1
+		"Connection error",         // 2
+		"Template read error",      // 3
+		"Unrecoverable error",      // 4
+		"Graphic read error",       // 5
+		"Illegal argument error",   // 6
+		"Cloud file access error"   // 7
+	};
+
 	private void sendToPrintConnect(JSONArray args, final CallbackContext callbackContext) throws JSONException {
 		final String zplString = args.getString(0);
 		byte[] passthroughBytes = null;
@@ -746,7 +758,7 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 				requiresForeground = true;
 			}
 		} catch (PackageManager.NameNotFoundException e) {
-			callbackContext.error(e.getMessage());
+			sendToNetworkLogs(callbackContext, "Exception retrieving PrintConnect version code: " + e.getMessage());
 		}
 
 		Intent intent = new Intent();
@@ -758,19 +770,26 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 					@Override
 					protected void onReceiveResult(int resultCode, Bundle resultData) {
 						if (resultCode == 0) { // Result code 0 indicates success
-							callbackContext.success();
+							callbackContext.success("Printed successfully");
 						} else {
 							// Handle unsuccessful print
 							// Error message (null on successful print)
-							String errorMessage = resultData.getString("com.zebra.printconnect.PrintService.ERROR_MESSAGE");
+							String errorMessage = String.format(
+								"Result code %d (%s): %s",
+								resultCode,
+								getZebraErrorCodeMessage(resultCode),
+								resultData.getString("com.zebra.printconnect.PrintService.ERROR_MESSAGE")
+							);
 							callbackContext.error(errorMessage);
 						}
 					}
 				}));
 
 		if (requiresForeground) {
+			this.sendToNetworkLogs(callbackContext, "Starting PrintConnect service in foreground with intent: " + intent);
 			mContext.startForegroundService(intent);
 		} else {
+			this.sendToNetworkLogs(callbackContext, "Starting PrintConnect service in background with intent: " + intent);
 			mContext.startService(intent);
 		}
 	}
@@ -785,4 +804,17 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		return receiverForSending;
 	}
 
+	private void sendToNetworkLogs(CallbackContext callbackContext, String message) {
+		PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, message);
+		pluginResult.setKeepCallback(true);
+		callbackContext.sendPluginResult(pluginResult);
+	}
+
+	private String getZebraErrorCodeMessage(int code) {
+		try {
+			return ZEBRA_ERROR_CODE_MAP[code];
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			return "Unknown error code";
+		}
+	}
 }
