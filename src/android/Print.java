@@ -280,49 +280,41 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 
 			mPrinter.addFeedLine(2);
 
-			// Items
+				// Combos
+				if (order.combos != null) {
+					for (Combo combo : order.combos) {
+						mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.TRUE, Printer.PARAM_UNSPECIFIED);
+						builder.append("1x " + combo.name + "\n");
+						mPrinter.addText(builder.toString());
+						builder.delete(0, builder.length());
+						mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.FALSE, Printer.PARAM_UNSPECIFIED);
 
-			if (order.items != null) {
-				for (OrderItem item : order.items) {
-					String itemName = item.quantity > 0 ?
-						item.quantity + " " + item.name : item.name;
+						if (combo.total_price != null && combo.total_price.compareTo(BigDecimal.ZERO) > 0)
+							builder.append("Combo Total: " + formatMoney(combo.total_price) + "\n");
 
-					// bold the item name
-					mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.TRUE, Printer.PARAM_UNSPECIFIED);
+						mPrinter.addText(builder.toString());
+						builder.delete(0, builder.length());
 
-					builder.append(itemName + "\n");
-					mPrinter.addText(builder.toString());
-					builder.delete(0, builder.length());
+						if (combo.items != null) {
+							for (OrderItem item : combo.items) {
+								printItem(item, "  ", builder);
+								mPrinter.addFeedLine(1);
+							}
+						}
 
-					mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.FALSE, Printer.PARAM_UNSPECIFIED);
-
-					if (item.size != null && !item.size.isEmpty())
-						builder.append("Size: " + item.size + "\n");
-
-					if (item.total_price != null && item.total_price.compareTo(BigDecimal.ZERO) > 0)
-						builder.append("Item Total: " + formatMoney(item.total_price) + "\n");
-
-					if (item.options != null)
-						for (ItemOption option : item.options)
-							builder.append("    " + option.getDisplay(printConfig.optionNameOnly) + "\n");
-
-					if (item.notes != null && !item.notes.isEmpty())
-						builder.append("Notes: " + item.notes + "\n");
-
-					if (item.rewards != null)
-						for (Reward reward : item.rewards)
-							builder.append("Reward: " + reward.name + ": -" + formatMoney(reward.amount) + "\n");
-
-					if (item.comps != null)
-						for (Reward comp : item.comps)
-							builder.append("Comp: " + comp.name + ": -" + formatMoney(comp.amount) + "\n");
-
-					mPrinter.addText(builder.toString());
-					builder.delete(0, builder.length());
-
-					mPrinter.addFeedLine(2);
+						mPrinter.addFeedLine(2);
+					}
 				}
-			}
+
+				// Standalone items (skip combo members)
+				if (order.items != null) {
+					for (OrderItem item : order.items) {
+						if (item.combo_id != null && !item.combo_id.isEmpty()) continue;
+
+						printItem(item, "", builder);
+						mPrinter.addFeedLine(2);
+					}
+				}
 
 			// Footer
 
@@ -386,6 +378,42 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 		}
 
 		return true;
+	}
+
+	private void printItem(OrderItem item, String indent, StringBuilder builder) throws Epos2Exception {
+		String itemName = item.quantity > 0 ?
+			item.quantity + " " + item.name : item.name;
+		String optIndent = indent + "    ";
+
+		mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.TRUE, Printer.PARAM_UNSPECIFIED);
+		builder.append(indent + itemName + "\n");
+		mPrinter.addText(builder.toString());
+		builder.delete(0, builder.length());
+		mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.FALSE, Printer.PARAM_UNSPECIFIED);
+
+		if (item.size != null && !item.size.isEmpty())
+			builder.append(indent + "Size: " + item.size + "\n");
+
+		if (item.total_price != null && item.total_price.compareTo(BigDecimal.ZERO) > 0)
+			builder.append(indent + "Item Total: " + formatMoney(item.total_price) + "\n");
+
+		if (item.options != null)
+			for (ItemOption option : item.options)
+				builder.append(optIndent + option.getDisplay(printConfig.optionNameOnly) + "\n");
+
+		if (item.notes != null && !item.notes.isEmpty())
+			builder.append(indent + "Notes: " + item.notes + "\n");
+
+		if (item.rewards != null)
+			for (Reward reward : item.rewards)
+				builder.append(indent + "Reward: " + reward.name + ": -" + formatMoney(reward.amount) + "\n");
+
+		if (item.comps != null)
+			for (Reward comp : item.comps)
+				builder.append(indent + "Comp: " + comp.name + ": -" + formatMoney(comp.amount) + "\n");
+
+		mPrinter.addText(builder.toString());
+		builder.delete(0, builder.length());
 	}
 
 	private boolean connectPrinter() {

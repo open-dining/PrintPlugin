@@ -53,6 +53,7 @@ public class Order {
 	public List<Tax> active_taxes;
 	public List<OrderCoupon> active_coupons;
 	public List<OrderItem> items;
+	public List<Combo> combos;
 	public List<Reward> rewards;
 	public List<Reward> comps;
 
