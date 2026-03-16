@@ -280,41 +280,41 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 
 			mPrinter.addFeedLine(2);
 
-				// Combos
-				if (order.combos != null) {
-					for (Combo combo : order.combos) {
-						mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.TRUE, Printer.PARAM_UNSPECIFIED);
-						builder.append("1x " + combo.name + "\n");
-						mPrinter.addText(builder.toString());
-						builder.delete(0, builder.length());
-						mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.FALSE, Printer.PARAM_UNSPECIFIED);
+			// Combos
+			if (order.combos != null) {
+				for (Combo combo : order.combos) {
+					mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.TRUE, Printer.PARAM_UNSPECIFIED);
+					builder.append("1x " + combo.name + "\n");
+					mPrinter.addText(builder.toString());
+					builder.delete(0, builder.length());
+					mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.FALSE, Printer.PARAM_UNSPECIFIED);
 
-						if (combo.total_price != null && combo.total_price.compareTo(BigDecimal.ZERO) > 0)
-							builder.append("Combo Total: " + formatMoney(combo.total_price) + "\n");
+					if (combo.total_price != null && combo.total_price.compareTo(BigDecimal.ZERO) > 0)
+						builder.append("Combo Total: " + formatMoney(combo.total_price) + "\n");
 
-						mPrinter.addText(builder.toString());
-						builder.delete(0, builder.length());
+					mPrinter.addText(builder.toString());
+					builder.delete(0, builder.length());
 
-						if (combo.items != null) {
-							for (OrderItem item : combo.items) {
-								printItem(item, "  ", builder);
-								mPrinter.addFeedLine(1);
-							}
+					if (combo.items != null) {
+						for (OrderItem item : combo.items) {
+							printItem(item, "  ", builder);
+							mPrinter.addFeedLine(1);
 						}
-
-						mPrinter.addFeedLine(2);
 					}
-				}
 
-				// Standalone items (skip combo members)
-				if (order.items != null) {
-					for (OrderItem item : order.items) {
-						if (item.combo_id != null && !item.combo_id.isEmpty()) continue;
-
-						printItem(item, "", builder);
-						mPrinter.addFeedLine(2);
-					}
+					mPrinter.addFeedLine(2);
 				}
+			}
+
+			// Standalone items (skip combo members)
+			if (order.items != null) {
+				for (OrderItem item : order.items) {
+					if (item.combo_id != null && !item.combo_id.isEmpty()) continue;
+
+					printItem(item, "", builder);
+					mPrinter.addFeedLine(2);
+				}
+			}
 
 			// Footer
 
