@@ -56,6 +56,9 @@ public class Order {
 	public List<Reward> rewards;
 	public List<Reward> comps;
 
+	public boolean alcohol;
+	public boolean tobacco;
+
 	public boolean isAdvance() {
 		return order_date != null && !order_date.isEmpty() && eta != null && !eta.isEmpty();
 	}
