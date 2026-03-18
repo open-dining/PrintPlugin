@@ -247,6 +247,26 @@ public class Print extends CordovaPlugin implements ReceiveListener {
 			mPrinter.addText(builder.toString());
 			builder.delete(0, builder.length());
 
+			if (order.alcohol) {
+				mPrinter.addTextStyle(Printer.TRUE, Printer.FALSE, Printer.TRUE, Printer.PARAM_UNSPECIFIED);
+				builder.append("!! CONTAINS ALCOHOL - VERIFY AGE !!\n\n");
+
+				mPrinter.addText(builder.toString());
+				builder.delete(0, builder.length());
+
+				mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.FALSE, Printer.PARAM_UNSPECIFIED);
+			}
+
+			if (order.tobacco) {
+				mPrinter.addTextStyle(Printer.TRUE, Printer.FALSE, Printer.TRUE, Printer.PARAM_UNSPECIFIED);
+				builder.append("!! CONTAINS TOBACCO - VERIFY AGE !!\n\n");
+
+				mPrinter.addText(builder.toString());
+				builder.delete(0, builder.length());
+
+				mPrinter.addTextStyle(Printer.FALSE, Printer.FALSE, Printer.FALSE, Printer.PARAM_UNSPECIFIED);
+			}
+
 			mPrinter.addTextSize(Printer.PARAM_DEFAULT, Printer.PARAM_DEFAULT);
 			mPrinter.addTextAlign(Printer.ALIGN_LEFT);
 
