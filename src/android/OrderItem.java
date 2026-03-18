@@ -10,6 +10,7 @@ public class OrderItem {
 	public String name;
 	public String notes;
 	public BigDecimal total_price;
+	public String combo_id;
 
 	public List<ItemOption> options;
 	public List<Reward> rewards;

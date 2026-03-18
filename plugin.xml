@@ -63,6 +63,7 @@
         <source-file src="src/android/Print.java" target-dir="src/net/opendining/cordova" />
         <source-file src="src/android/ItemOption.java" target-dir="src/net/opendining/cordova" />
         <source-file src="src/android/Order.java" target-dir="src/net/opendining/cordova" />
+        <source-file src="src/android/Combo.java" target-dir="src/net/opendining/cordova" />
         <source-file src="src/android/OrderCoupon.java" target-dir="src/net/opendining/cordova" />
         <source-file src="src/android/OrderField.java" target-dir="src/net/opendining/cordova" />
         <source-file src="src/android/OrderItem.java" target-dir="src/net/opendining/cordova" />
